@@ -30,16 +30,24 @@ var combinationSum4Dp = function(nums, dp, target) {
     if (dp[target]>=0)
         return dp[target]
     total=0
-    for (i=0; i<nums.length; i++) {
-        if (target>=nums[i])
-            total += combinationSum4Dp(nums, dp, target)
+    for (var i=0; i<nums.length; i++) {  // var i make i local scope, without var i seems global and fails
+        if (target>=nums[i]) {
+            total += combinationSum4Dp(nums, dp, target-nums[i])
+            //console.log("loop="+i+" target="+target+" val="+total)
+        }
     }
+    //console.log("loop done"+" target="+target+" val="+total)
+    dp[target]=total
+    return total
 };
 var combinationSum4 = function(nums, target) {
     dp = new Array(target+1)
     for (i=0; i<dp.length; i++) {
         dp[i]=-1
     }
-    dp[0]=0
+    dp[0]=1
     return combinationSum4Dp(nums, dp, target)
 };
+
+var ans=combinationSum4([1,2,3], 4)
+console.log("dp="+dp+" ans="+ans)
